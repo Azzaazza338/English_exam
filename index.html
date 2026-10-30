@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AZ Exam - سیستم آزمون انگلیسی</title>
+  <style>
+    :root {
+      --primary: #1e40af;
+      --primary-dark: #1e3a8a;
+      --primary-light: #3b82f6;
+      --success: #059669;
+      --danger: #e11d48;
+      --warning: #d97706;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --text-light: #64748b;
+      --border: #cbd5e1;
+      --shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+      --radius: 16px;
+      --silver: #94a3b8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Vazirmatn", "Tahoma", "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Login Page */
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 40%, #3b82f6 100%);
+    }
+
+    .login-box {
+      background: white;
+      padding: 44px 40px;
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+      width: 100%;
+      max-width: 420px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .login-box h1 {
+      text-align: center;
+      margin-bottom: 8px;
+      font-size: 1.75rem;
+      color: #1e40af;
+    }
+
+    .login-box .subtitle {
+      text-align: center;
+      color: var(--text-light);
+      margin-bottom: 32px;
+      font-size: 0.95rem;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+      background: #fff;
+    }
+
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+      color: white;
+      width: 100%;
+      box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px 0 rgba(37, 99, 235, 0.4);
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #15803d;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #b91c1c;
+    }
+
+    .btn-secondary {
+      background: #e2e8f0;
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: #cbd5e1;
+    }
+
+    .btn-sm {
+      padding: 7px 14px;
+      font-size: 0.875rem;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .error-msg {
+      background: #fef2f2;
+      color: var(--danger);
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    /* App Layout */
+    .app {
+      display: none;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgb(0 0 0 / 0.05);
+    }
+
+    .navbar-brand {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: -0.5px;
+    }
+
+    .navbar-user {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .navbar-user span {
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .sidebar {
+      width: 240px;
+      background: white;
+      border-left: 1px solid var(--border);
+      padding: 24px 0;
+      position: fixed;
+      top: 64px;
+      bottom: 0;
+      right: 0;
+      overflow-y: auto;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 24px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      border-right: 3px solid transparent;
+    }
+
+    .sidebar-item:hover {
+      background: #f8fafc;
+    }
+
+    .sidebar-item.active {
+      background: #eff6ff;
+      color: var(--primary);
+      border-right-color: var(--primary);
+    }
+
+    .main-content {
+      margin-right: 240px;
+      padding: 32px;
+      max-width: 1100px;
+    }
+
+    .page-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .page-desc {
+      color: var(--text-light);
+      margin-bottom: 28px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px 14px;
+      text-align: right;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: #f8fafc;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+
+    tr:hover {
+      background: #f8fafc;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .badge-success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .badge-warning {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .badge-danger {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .badge-info {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    }
+
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h3 {
+      font-size: 1.25rem;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-light);
+      line-height: 1;
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    /* Question Builder */
+    .question-item {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .question-item .remove-q {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+    }
+
+    .option-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .option-row input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+    }
+
+    .option-row input[type="text"] {
+      flex: 1;
+    }
+
+    /* Exam Taking */
+    .exam-question {
+      background: white;
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .exam-question h3 {
+      margin-bottom: 16px;
+      font-size: 1.15rem;
+    }
+
+    .option-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .option-label:hover {
+      border-color: var(--primary);
+      background: #f0f7ff;
+    }
+
+    .option-label input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+    }
+
+    .option-label.selected {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      transition: width 0.3s;
+    }
+
+    .result-box {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .result-score {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin: 16px 0;
+    }
+
+    .result-score.good { color: var(--success); }
+    .result-score.medium { color: var(--warning); }
+    .result-score.bad { color: var(--danger); }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--text-light);
+    }
+
+    .empty-state svg {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 16px;
+      opacity: 0.4;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .stat-card .number {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .stat-card .label {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+      .main-content {
+        margin-right: 0;
+        padding: 20px;
+      }
+      .mobile-menu {
+        display: flex !important;
+      }
+    }
+
+    .mobile-menu {
+      display: none;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .mobile-menu .btn {
+      flex: 1 1 auto;
+      min-width: 110px;
+      font-size: 0.85rem;
+      padding: 10px 12px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e293b;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 500;
+      z-index: 2000;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Page -->
+  <div id="loginPage" class="login-container">
+    <div class="login-box">
+      <h1>AZ Exam</h1>
+      <p class="subtitle">سیستم هوشمند آزمون انگلیسی</p>
+      <div class="error-msg" id="loginError"></div>
+      <div class="form-group">
+        <label>نام کاربری</label>
+        <input type="text" id="loginUsername" placeholder="نام کاربری خود را وارد کنید" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label>رمز عبور</label>
+        <input type="password" id="loginPassword" placeholder="رمز عبور" autocomplete="current-password">
+      </div>
+      <button class="btn btn-primary" onclick="login()">ورود</button>
+    </div>
+  </div>
+
+  <!-- App -->
+  <div id="app" class="app">
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <span>📘</span>
+        <span>AZ Exam</span>
+      </div>
+      <div class="navbar-user">
+        <span id="currentUserName"></span>
+        <button class="btn btn-secondary btn-sm" onclick="logout()">خروج</button>
+      </div>
+    </nav>
+
+    <!-- Admin Sidebar -->
+    <aside class="sidebar" id="adminSidebar">
+      <div class="sidebar-item active" data-page="adminDashboard" onclick="showPage('adminDashboard')">
+        <span>📊</span> داشبورد
+      </div>
+      <div class="sidebar-item" data-page="students" onclick="showPage('students')">
+        <span>👥</span> مدیریت دانش‌آموزان
+      </div>
+      <div class="sidebar-item" data-page="exams" onclick="showPage('exams')">
+        <span>📝</span> مدیریت آزمون‌ها
+      </div>
+      <div class="sidebar-item" data-page="results" onclick="showPage('results')">
+        <span>🏆</span> نتایج و نمرات
+      </div>
+    </aside>
+
+    <!-- Student Sidebar -->
+    <aside class="sidebar" id="studentSidebar" style="display:none;">
+      <div class="sidebar-item active" data-page="studentExams" onclick="showPage('studentExams')">
+        <span>📝</span> آزمون‌های من
+      </div>
+      <div class="sidebar-item" data-page="studentResults" onclick="showPage('studentResults')">
+        <span>🏆</span> نمرات من
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <!-- Mobile Menu -->
+      <div class="mobile-menu" id="mobileMenu"></div>
+
+      <!-- ========== ADMIN PAGES ========== -->
+
+      <!-- Admin Dashboard -->
+      <div id="page-adminDashboard" class="page">
+        <h1 class="page-title">داشبورد ادمین</h1>
+        <p class="page-desc">خلاصه وضعیت سیستم</p>
+        <div class="stats-grid" id="adminStats"></div>
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">آخرین نتایج</h2>
+          </div>
+          <div id="recentResults"></div>
+        </div>
+      </div>
+
+      <!-- Students Management -->
+      <div id="page-students" class="page hidden">
+        <h1 class="page-title">مدیریت دانش‌آموزان</h1>
+        <p class="page-desc">دانش‌آموزان جدید اضافه کنید یا اطلاعات قبلی را ویرایش کنید</p>
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">لیست دانش‌آموزان</h2>
+            <button class="btn btn-primary btn-sm" onclick="openStudentModal()">+ افزودن دانش‌آموز</button>
+          </div>
+          <div id="studentsTable"></div>
+        </div>
+      </div>
+
+      <!-- Exams Management -->
+      <div id="page-exams" class="page hidden">
+        <h1 class="page-title">مدیریت آزمون‌ها</h1>
+        <p class="page-desc">آزمون‌های انگلیسی را ایجاد و مدیریت کنید</p>
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">لیست آزمون‌ها</h2>
+            <button class="btn btn-primary btn-sm" onclick="openExamModal()">+ ایجاد آزمون جدید</button>
+          </div>
+          <div id="examsTable"></div>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div id="page-results" class="page hidden">
+        <h1 class="page-title">نتایج و نمرات</h1>
+        <p class="page-desc">نمرات تمام دانش‌آموزان را مشاهده کنید</p>
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">همه نتایج</h2>
+          </div>
+          <div id="allResultsTable"></div>
+        </div>
+      </div>
+
+      <!-- ========== STUDENT PAGES ========== -->
+
+      <!-- Student Exams -->
+      <div id="page-studentExams" class="page hidden">
+        <h1 class="page-title">آزمون‌های موجود</h1>
+        <p class="page-desc">آزمون مورد نظر خود را انتخاب کرده و شروع کنید</p>
+        <div id="availableExams"></div>
+      </div>
+
+      <!-- Student Results -->
+      <div id="page-studentResults" class="page hidden">
+        <h1 class="page-title">نمرات من</h1>
+        <p class="page-desc">تاریخچه آزمون‌ها و نمرات شما</p>
+        <div class="card">
+          <div id="myResultsTable"></div>
+        </div>
+      </div>
+
+      <!-- Taking Exam -->
+      <div id="page-takingExam" class="page hidden">
+        <div id="examTakingArea"></div>
+      </div>
+
+      <!-- Exam Result -->
+      <div id="page-examResult" class="page hidden">
+        <div id="examResultArea"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Student Modal -->
+  <div class="modal-overlay" id="studentModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="studentModalTitle">افزودن دانش‌آموز</h3>
+        <button class="modal-close" onclick="closeModal('studentModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="studentId">
+        <div class="form-group">
+          <label>نام و penampilan</label>
+          <input type="text" id="studentName" placeholder="مثال: علی محمدی">
+        </div>
+        <div class="form-group">
+          <label>نام کاربری</label>
+          <input type="text" id="studentUsername" placeholder="مثال: ali01">
+        </div>
+        <div class="form-group">
+          <label>رمز عبور</label>
+          <input type="text" id="studentPassword" placeholder="رمز عبور">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('studentModal')">انصراف</button>
+        <button class="btn btn-primary" onclick="saveStudent()">ذخیره</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Exam Modal -->
+  <div class="modal-overlay" id="examModal">
+    <div class="modal" style="max-width:700px;">
+      <div class="modal-header">
+        <h3 id="examModalTitle">ایجاد آزمون جدید</h3>
+        <button class="modal-close" onclick="closeModal('examModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="examId">
+        <div class="form-group">
+          <label>عنوان آزمون</label>
+          <input type="text" id="examTitle" placeholder="مثال: آزمون گرامر سطح متوسط">
+        </div>
+        <div class="form-group">
+          <label>توضیحات (اختیاری)</label>
+          <textarea id="examDesc" rows="2" placeholder="توضیح کوتاه درباره آزمون"></textarea>
+        </div>
+        <div style="margin: 20px 0 12px; display:flex; justify-content:space-between; align-items:center;">
+          <strong>سوالات</strong>
+          <button class="btn btn-outline btn-sm" onclick="addQuestion()">+ افزودن سوال</button>
+        </div>
+        <div id="questionsContainer"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('examModal')">انصراف</button>
+        <button class="btn btn-primary" onclick="saveExam()">ذخیره آزمون</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ===================== DATA & STATE =====================
+    let currentUser = null;
+    let currentExam = null;
+    let currentAnswers = {};
+    let questionCounter = 0;
+
+    // Default admin
+    const DEFAULT_ADMIN = {
+      id: 'admin-1',
+      username: 'admin',
+      password: 'admin123',
+      name: 'مدیر سیستم',
+      role: 'admin'
+    };
+
+    // ===================== STORAGE =====================
+    function getData(key) {
+      const data = localStorage.getItem('englishExam_' + key);
+      return data ? JSON.parse(data) : null;
+    }
+
+    function setData(key, value) {
+      localStorage.setItem('englishExam_' + key, JSON.stringify(value));
+    }
+
+    function initStorage() {
+      if (!getData('users')) {
+        setData('users', [DEFAULT_ADMIN]);
+      }
+      if (!getData('exams')) {
+        setData('exams', []);
+      }
+      if (!getData('results')) {
+        setData('results', []);
+      }
+    }
+
+    // ===================== AUTH =====================
+    function login() {
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const errorEl = document.getElementById('loginError');
+
+      if (!username || !password) {
+        errorEl.textContent = 'لطفاً نام کاربری و رمز عبور را وارد کنید';
+        errorEl.style.display = 'block';
+        return;
+      }
+
+      const users = getData('users') || [];
+      const user = users.find(u => u.username === username && u.password === password);
+
+      if (!user) {
+        errorEl.textContent = 'نام کاربری یا رمز عبور اشتباه است';
+        errorEl.style.display = 'block';
+        return;
+      }
+
+      currentUser = user;
+      localStorage.setItem('englishExam_currentUser', JSON.stringify(user));
+      showApp();
+    }
+
+    function logout() {
+      currentUser = null;
+      localStorage.removeItem('englishExam_currentUser');
+      document.getElementById('app').style.display = 'none';
+      document.getElementById('loginPage').style.display = 'flex';
+      document.getElementById('loginUsername').value = '';
+      document.getElementById('loginPassword').value = '';
+      document.getElementById('loginError').style.display = 'none';
+    }
+
+    function showApp() {
+      document.getElementById('loginPage').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      document.getElementById('currentUserName').textContent = currentUser.name + (currentUser.role === 'admin' ? ' (ادمین)' : '');
+
+      if (currentUser.role === 'admin') {
+        document.getElementById('adminSidebar').style.display = 'block';
+        document.getElementById('studentSidebar').style.display = 'none';
+        showPage('adminDashboard');
+      } else {
+        document.getElementById('adminSidebar').style.display = 'none';
+        document.getElementById('studentSidebar').style.display = 'block';
+        showPage('studentExams');
+      }
+    }
+
+    // ===================== NAVIGATION =====================
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+      const page = document.getElementById('page-' + pageId);
+      if (page) page.classList.remove('hidden');
+
+      // Update sidebar active
+      document.querySelectorAll('.sidebar-item').forEach(item => {
+        item.classList.toggle('active', item.dataset.page === pageId);
+      });
+
+      // Load page data
+      if (pageId === 'adminDashboard') renderAdminDashboard();
+      if (pageId === 'students') renderStudents();
+      if (pageId === 'exams') renderExams();
+      if (pageId === 'results') renderAllResults();
+      if (pageId === 'studentExams') renderAvailableExams();
+      if (pageId === 'studentResults') renderMyResults();
+    }
+
+    // ===================== TOAST =====================
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // ===================== STUDENTS =====================
+    function openStudentModal(student = null) {
+      document.getElementById('studentModalTitle').textContent = student ? 'ویرایش دانش‌آموز' : 'افزودن دانش‌آموز';
+      document.getElementById('studentId').value = student ? student.id : '';
+      document.getElementById('studentName').value = student ? student.name : '';
+      document.getElementById('studentUsername').value = student ? student.username : '';
+      document.getElementById('studentPassword').value = student ? student.password : '';
+      document.getElementById('studentModal').classList.add('show');
+    }
+
+    function saveStudent() {
+      const id = document.getElementById('studentId').value;
+      const name = document.getElementById('studentName').value.trim();
+      const username = document.getElementById('studentUsername').value.trim();
+      const password = document.getElementById('studentPassword').value;
+
+      if (!name || !username || !password) {
+        showToast('لطفاً همه فیلدها را پر کنید');
+        return;
+      }
+
+      let users = getData('users') || [];
+
+      // Check unique username
+      const exists = users.find(u => u.username === username && u.id !== id);
+      if (exists) {
+        showToast('این نام کاربری قبلاً استفاده شده است');
+        return;
+      }
+
+      if (id) {
+        // Edit
+        users = users.map(u => u.id === id ? { ...u, name, username, password } : u);
+        showToast('دانش‌آموز با موفقیت ویرایش شد');
+      } else {
+        // Add
+        users.push({
+          id: 'stu-' + Date.now(),
+          name,
+          username,
+          password,
+          role: 'student'
+        });
+        showToast('دانش‌آموز جدید اضافه شد');
+      }
+
+      setData('users', users);
+      closeModal('studentModal');
+      renderStudents();
+      if (document.getElementById('page-adminDashboard').classList.contains('hidden') === false) {
+        renderAdminDashboard();
+      }
+    }
+
+    function deleteStudent(id) {
+      if (!confirm('آیا از حذف این دانش‌آموز مطمئن هستید؟')) return;
+      let users = getData('users') || [];
+      users = users.filter(u => u.id !== id);
+      setData('users', users);
+      showToast('دانش‌آموز حذف شد');
+      renderStudents();
+    }
+
+    function renderStudents() {
+      const users = (getData('users') || []).filter(u => u.role === 'student');
+      const container = document.getElementById('studentsTable');
+
+      if (users.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <p>هنوز دانش‌آموزی ثبت نشده است</p>
+            <button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="openStudentModal()">افزودن اولین دانش‌آموز</button>
+          </div>`;
+        return;
+      }
+
+      let html = `<table>
+        <thead>
+          <tr>
+            <th>نام</th>
+            <th>نام کاربری</th>
+            <th>رمز عبور</th>
+            <th>عملیات</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+      users.forEach(u => {
+        html += `<tr>
+          <td>${u.name}</td>
+          <td><code>${u.username}</code></td>
+          <td><code>${u.password}</code></td>
+          <td>
+            <button class="btn btn-outline btn-sm" onclick='openStudentModal(${JSON.stringify(u)})'>ویرایش</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteStudent('${u.id}')">حذف</button>
+          </td>
+        </tr>`;
+      });
+
+      html += `</tbody></table>`;
+      container.innerHTML = html;
+    }
+
+    // ===================== EXAMS =====================
+    function openExamModal(exam = null) {
+      document.getElementById('examModalTitle').textContent = exam ? 'ویرایش آزمون' : 'ایجاد آزمون جدید';
+      document.getElementById('examId').value = exam ? exam.id : '';
+      document.getElementById('examTitle').value = exam ? exam.title : '';
+      document.getElementById('examDesc').value = exam ? (exam.description || '') : '';
+      document.getElementById('questionsContainer').innerHTML = '';
+      questionCounter = 0;
+
+      if (exam && exam.questions) {
+        exam.questions.forEach(q => addQuestion(q));
+      } else {
+        addQuestion(); // at least one
+      }
+
+      document.getElementById('examModal').classList.add('show');
+    }
+
+    function addQuestion(data = null) {
+      questionCounter++;
+      const qId = questionCounter;
+      const container = document.getElementById('questionsContainer');
+
+      const div = document.createElement('div');
+      div.className = 'question-item';
+      div.id = 'q-' + qId;
+      div.innerHTML = `
+        <button class="btn btn-danger btn-sm remove-q" onclick="removeQuestion(${qId})">حذف</button>
+        <div class="form-group">
+          <label>متن سوال ${qId}</label>
+          <textarea class="q-text" rows="2" placeholder="سوال را به انگلیسی بنویسید...">${data ? data.text : ''}</textarea>
+        </div>
+        <div class="form-group">
+          <label>گزینه‌ها (گزینه صحیح را انتخاب کنید)</label>
+          ${[0,1,2,3].map(i => `
+            <div class="option-row">
+              <input type="radio" name="correct-${qId}" value="${i}" ${data && data.correctIndex === i ? 'checked' : (i===0 && !data ? 'checked' : '')}>
+              <input type="text" class="q-option" data-index="${i}" placeholder="گزینه ${i+1}" value="${data && data.options[i] ? data.options[i] : ''}">
+            </div>
+          `).join('')}
+        </div>
+      `;
+      container.appendChild(div);
+    }
+
+    function removeQuestion(qId) {
+      const el = document.getElementById('q-' + qId);
+      if (el) el.remove();
+    }
+
+    function saveExam() {
+      const id = document.getElementById('examId').value;
+      const title = document.getElementById('examTitle').value.trim();
+      const description = document.getElementById('examDesc').value.trim();
+
+      if (!title) {
+        showToast('عنوان آزمون الزامی است');
+        return;
+      }
+
+      const questionEls = document.querySelectorAll('.question-item');
+      if (questionEls.length === 0) {
+        showToast('حداقل یک سوال اضافه کنید');
+        return;
+      }
+
+      const questions = [];
+      let valid = true;
+
+      questionEls.forEach((el, idx) => {
+        const text = el.querySelector('.q-text').value.trim();
+        const options = Array.from(el.querySelectorAll('.q-option')).map(o => o.value.trim());
+        const correctRadio = el.querySelector('input[type="radio"]:checked');
+        const correctIndex = correctRadio ? parseInt(correctRadio.value) : 0;
+
+        if (!text || options.some(o => !o)) {
+          valid = false;
+        }
+
+        questions.push({
+          id: 'q' + (idx + 1),
+          text,
+          options,
+          correctIndex
+        });
+      });
+
+      if (!valid) {
+        showToast('لطفاً متن همه سوالات و گزینه‌ها را کامل کنید');
+        return;
+      }
+
+      let exams = getData('exams') || [];
+
+      if (id) {
+        exams = exams.map(e => e.id === id ? { ...e, title, description, questions } : e);
+        showToast('آزمون با موفقیت ویرایش شد');
+      } else {
+        exams.push({
+          id: 'exam-' + Date.now(),
+          title,
+          description,
+          questions,
+          createdAt: new Date().toISOString()
+        });
+        showToast('آزمون جدید ایجاد شد');
+      }
+
+      setData('exams', exams);
+      closeModal('examModal');
+      renderExams();
+    }
+
+    function deleteExam(id) {
+      if (!confirm('آیا از حذف این آزمون مطمئن هستید؟ تمام نتایج مرتبط هم باقی می‌مانند.')) return;
+      let exams = getData('exams') || [];
+      exams = exams.filter(e => e.id !== id);
+      setData('exams', exams);
+      showToast('آزمون حذف شد');
+      renderExams();
+    }
+
+    function renderExams() {
+      const exams = getData('exams') || [];
+      const container = document.getElementById('examsTable');
+
+      if (exams.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <p>هنوز آزمونی ایجاد نشده است</p>
+            <button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="openExamModal()">ایجاد اولین آزمون</button>
+          </div>`;
+        return;
+      }
+
+      let html = `<table>
+        <thead>
+          <tr>
+            <th>عنوان</th>
+            <th>تعداد سوال</th>
+            <th>تاریخ ایجاد</th>
+            <th>عملیات</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+      exams.forEach(e => {
+        const date = e.createdAt ? new Date(e.createdAt).toLocaleDateString('fa-IR') : '-';
+        html += `<tr>
+          <td><strong>${e.title}</strong><br><small style="color:#64748b">${e.description || ''}</small></td>
+          <td>${e.questions.length} سوال</td>
+          <td>${date}</td>
+          <td>
+            <button class="btn btn-outline btn-sm" onclick='openExamModal(${JSON.stringify(e).replace(/'/g, "&#39;")})'>ویرایش</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteExam('${e.id}')">حذف</button>
+          </td>
+        </tr>`;
+      });
+
+      html += `</tbody></table>`;
+      container.innerHTML = html;
+    }
+
+    // ===================== RESULTS =====================
+    function renderAllResults() {
+      const results = getData('results') || [];
+      const users = getData('users') || [];
+      const exams = getData('exams') || [];
+      const container = document.getElementById('allResultsTable');
+
+      if (results.length === 0) {
+        container.innerHTML = `<div class="empty-state"><p>هنوز نتیجه‌ای ثبت نشده است</p></div>`;
+        return;
+      }
+
+      // Sort by date desc
+      const sorted = [...results].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      let html = `<table>
+        <thead>
+          <tr>
+            <th>دانش‌آموز</th>
+            <th>آزمون</th>
+            <th>نمره</th>
+            <th>درصد</th>
+            <th>تاریخ</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+      sorted.forEach(r => {
+        const student = users.find(u => u.id === r.studentId);
+        const exam = exams.find(e => e.id === r.examId);
+        const percent = Math.round((r.score / r.total) * 100);
+        const badgeClass = percent >= 70 ? 'badge-success' : percent >= 50 ? 'badge-warning' : 'badge-danger';
+
+        html += `<tr>
+          <td>${student ? student.name : 'حذف شده'}</td>
+          <td>${exam ? exam.title : 'حذف شده'}</td>
+          <td>${r.score} از ${r.total}</td>
+          <td><span class="badge ${badgeClass}">${percent}%</span></td>
+          <td>${new Date(r.date).toLocaleDateString('fa-IR')}</td>
+        </tr>`;
+      });
+
+      html += `</tbody></table>`;
+      container.innerHTML = html;
+    }
+
+    function renderAdminDashboard() {
+      const users = (getData('users') || []).filter(u => u.role === 'student');
+      const exams = getData('exams') || [];
+      const results = getData('results') || [];
+
+      document.getElementById('adminStats').innerHTML = `
+        <div class="stat-card">
+          <div class="number">${users.length}</div>
+          <div class="label">دانش‌آموز</div>
+        </div>
+        <div class="stat-card">
+          <div class="number">${exams.length}</div>
+          <div class="label">آزمون</div>
+        </div>
+        <div class="stat-card">
+          <div class="number">${results.length}</div>
+          <div class="label">نتیجه ثبت‌شده</div>
+        </div>
+      `;
+
+      // Recent results
+      const sorted = [...results].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+      const container = document.getElementById('recentResults');
+
+      if (sorted.length === 0) {
+        container.innerHTML = `<div class="empty-state"><p>هنوز نتیجه‌ای ثبت نشده</p></div>`;
+        return;
+      }
+
+      const allUsers = getData('users') || [];
+      const allExams = getData('exams') || [];
+
+      let html = `<table>
+        <thead><tr><th>دانش‌آموز</th><th>آزمون</th><th>نمره</th><th>تاریخ</th></tr></thead>
+        <tbody>`;
+      sorted.forEach(r => {
+        const student = allUsers.find(u => u.id === r.studentId);
+        const exam = allExams.find(e => e.id === r.examId);
+        const percent = Math.round((r.score / r.total) * 100);
+        html += `<tr>
+          <td>${student ? student.name : '-'}</td>
+          <td>${exam ? exam.title : '-'}</td>
+          <td>${r.score}/${r.total} (${percent}%)</td>
+          <td>${new Date(r.date).toLocaleDateString('fa-IR')}</td>
+        </tr>`;
+      });
+      html += `</tbody></table>`;
+      container.innerHTML = html;
+    }
+
+    // ===================== STUDENT SIDE =====================
+    function renderAvailableExams() {
+      const exams = getData('exams') || [];
+      const results = getData('results') || [];
+      const container = document.getElementById('availableExams');
+
+      if (exams.length === 0) {
+        container.innerHTML = `<div class="card"><div class="empty-state"><p>هنوز آزمونی تعریف نشده است</p></div></div>`;
+        return;
+      }
+
+      let html = '';
+      exams.forEach(exam => {
+        const myResult = results.find(r => r.studentId === currentUser.id && r.examId === exam.id);
+        html += `
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">${exam.title}</h2>
+                <p style="color:#64748b; margin-top:4px;">${exam.description || ''} • ${exam.questions.length} سوال</p>
+              </div>
+              <div>
+                ${myResult 
+                  ? `<span class="badge badge-info">قبلاً شرکت کرده‌اید: ${myResult.score}/${myResult.total}</span>
+                     <button class="btn btn-outline btn-sm" style="margin-right:8px" onclick="startExam('${exam.id}')">شرکت مجدد</button>`
+                  : `<button class="btn btn-primary" onclick="startExam('${exam.id}')">شروع آزمون</button>`
+                }
+              </div>
+            </div>
+          </div>`;
+      });
+      container.innerHTML = html;
+    }
+
+    function startExam(examId) {
+      const exams = getData('exams') || [];
+      currentExam = exams.find(e => e.id === examId);
+      if (!currentExam) return;
+
+      currentAnswers = {};
+      showPage('takingExam');
+      renderExamTaking();
+    }
+
+    function renderExamTaking() {
+      const area = document.getElementById('examTakingArea');
+      const total = currentExam.questions.length;
+
+      let html = `
+        <h1 class="page-title">${currentExam.title}</h1>
+        <p class="page-desc">${currentExam.description || ''} • ${total} سوال</p>
+        <div class="progress-bar"><div class="progress-fill" id="examProgress" style="width:0%"></div></div>
+      `;
+
+      currentExam.questions.forEach((q, idx) => {
+        html += `
+          <div class="exam-question" id="eq-${idx}">
+            <h3>سوال ${idx + 1}: ${q.text}</h3>
+            ${q.options.map((opt, oIdx) => `
+              <label class="option-label" id="opt-${idx}-${oIdx}">
+                <input type="radio" name="q${idx}" value="${oIdx}" onchange="selectAnswer(${idx}, ${oIdx})">
+                <span>${opt}</span>
+              </label>
+            `).join('')}
+          </div>
+        `;
+      });
+
+      html += `
+        <div style="display:flex; gap:12px; margin-top:24px;">
+          <button class="btn btn-primary" onclick="submitExam()">پایان آزمون و مشاهده نمره</button>
+          <button class="btn btn-secondary" onclick="showPage('studentExams')">انصراف</button>
+        </div>
+      `;
+
+      area.innerHTML = html;
+    }
+
+    function selectAnswer(qIdx, oIdx) {
+      currentAnswers[qIdx] = oIdx;
+
+      // Visual
+      const total = currentExam.questions.length;
+      for (let i = 0; i < 4; i++) {
+        const el = document.getElementById(`opt-${qIdx}-${i}`);
+        if (el) el.classList.toggle('selected', i === oIdx);
+      }
+
+      // Progress
+      const answered = Object.keys(currentAnswers).length;
+      document.getElementById('examProgress').style.width = ((answered / total) * 100) + '%';
+    }
+
+    function submitExam() {
+      const total = currentExam.questions.length;
+      const answered = Object.keys(currentAnswers).length;
+
+      if (answered < total) {
+        if (!confirm(`شما فقط به ${answered} سوال از ${total} سوال پاسخ داده‌اید. آیا مطمئن هستید؟`)) return;
+      }
+
+      let score = 0;
+      currentExam.questions.forEach((q, idx) => {
+        if (currentAnswers[idx] === q.correctIndex) score++;
+      });
+
+      // Save result
+      const results = getData('results') || [];
+      results.push({
+        id: 'res-' + Date.now(),
+        studentId: currentUser.id,
+        examId: currentExam.id,
+        score,
+        total,
+        answers: { ...currentAnswers },
+        date: new Date().toISOString()
+      });
+      setData('results', results);
+
+      // Show result
+      showExamResult(score, total);
+    }
+
+    function showExamResult(score, total) {
+      showPage('examResult');
+      const percent = Math.round((score / total) * 100);
+      let scoreClass = percent >= 70 ? 'good' : percent >= 50 ? 'medium' : 'bad';
+      let message = percent >= 70 ? 'عالی! آفرین 👏' : percent >= 50 ? 'خوب بود، می‌تونی بهتر هم بشی' : 'نیاز به تمرین بیشتر داری';
+
+      const area = document.getElementById('examResultArea');
+      area.innerHTML = `
+        <div class="card">
+          <div class="result-box">
+            <h2>نتیجه آزمون: ${currentExam.title}</h2>
+            <div class="result-score ${scoreClass}">${score} / ${total}</div>
+            <p style="font-size:1.25rem; margin-bottom:8px;">${percent}%</p>
+            <p style="color:#64748b; margin-bottom:24px;">${message}</p>
+            <button class="btn btn-primary" onclick="showPage('studentExams')">بازگشت به آزمون‌ها</button>
+            <button class="btn btn-secondary" style="margin-right:8px" onclick="showPage('studentResults')">مشاهده همه نمرات</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderMyResults() {
+      const results = (getData('results') || []).filter(r => r.studentId === currentUser.id);
+      const exams = getData('exams') || [];
+      const container = document.getElementById('myResultsTable');
+
+      if (results.length === 0) {
+        container.innerHTML = `<div class="empty-state"><p>هنوز در هیچ آزمونی شرکت نکرده‌اید</p></div>`;
+        return;
+      }
+
+      const sorted = [...results].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      let html = `<table>
+        <thead>
+          <tr>
+            <th>آزمون</th>
+            <th>نمره</th>
+            <th>درصد</th>
+            <th>تاریخ</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+      sorted.forEach(r => {
+        const exam = exams.find(e => e.id === r.examId);
+        const percent = Math.round((r.score / r.total) * 100);
+        const badgeClass = percent >= 70 ? 'badge-success' : percent >= 50 ? 'badge-warning' : 'badge-danger';
+
+        html += `<tr>
+          <td>${exam ? exam.title : 'حذف شده'}</td>
+          <td>${r.score} از ${r.total}</td>
+          <td><span class="badge ${badgeClass}">${percent}%</span></td>
+          <td>${new Date(r.date).toLocaleDateString('fa-IR')}</td>
+        </tr>`;
+      });
+
+      html += `</tbody></table>`;
+      container.innerHTML = html;
+    }
+
+    // ===================== MODALS =====================
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('show');
+    }
+
+    // Close modal on outside click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', e => {
+        if (e.target === overlay) overlay.classList.remove('show');
+      });
+    });
+
+    // ===================== INIT =====================
+    initStorage();
+
+    // Check if already logged in
+    const savedUser = localStorage.getItem('englishExam_currentUser');
+    if (savedUser) {
+      currentUser = JSON.parse(savedUser);
+      // Verify user still exists
+      const users = getData('users') || [];
+      const exists = users.find(u => u.id === currentUser.id);
+      if (exists) {
+        currentUser = exists;
+        showApp();
+      } else {
+        localStorage.removeItem('englishExam_currentUser');
+      }
+    }
+
+    // Enter key on login
+    document.getElementById('loginPassword').addEventListener('keypress', e => {
+      if (e.key === 'Enter') login();
+    });
+  </script>
+</body>
+</html>
